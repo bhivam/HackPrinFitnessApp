@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native';
@@ -6,7 +6,8 @@ import { ScrollView } from 'react-native';
 import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { createUser } from '../../lib/appwrite';
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -17,7 +18,23 @@ const SignUp = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = () => {};
+  const submit = async () => {
+    if (!form.username || !form.email || !form.password) {
+      Alert.alert('Error', 'Please fill in all the fields.');
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await createUser(form.email, form.password, form.username);
+
+      router.replace('/home');
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -36,7 +53,7 @@ const SignUp = () => {
           <FormField
             title='Username'
             value={form.username}
-            handleChangeText={(e) => setForm({ ...form, password: e })}
+            handleChangeText={(e) => setForm({ ...form, username: e })}
             otherStyles='mt-7'
           />
           <FormField
@@ -53,14 +70,14 @@ const SignUp = () => {
             otherStyles='mt-7'
           />
           <CustomButton
-            title='Sign In'
+            title='Sign Up'
             handlePress={submit}
             containerStyles={'mt-7'}
             isLoading={isSubmitting}
           />
           <View className='justify-center pt-5 flex-row gap-2'>
             <Text className='text-lg text-gray-100 font-pregular'>
-              Have an account already? 
+              Have an account already?
             </Text>
             <Link
               href={'/sign-in'}
