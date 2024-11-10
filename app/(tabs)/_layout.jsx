@@ -32,8 +32,8 @@ const TabsLayout = () => {
           tabBarActiveTintColor: '#FFA001',
           tabBarInactiveTintColor: '#CDCDE0',
           tabBarStyle: {
-            backgroundColor: '#161622',
-            borderTopWidth: 1,
+            backgroundColor: '#000',
+            borderTopWidth: 0,
             borderTopColor: '#232533',
             height: 84,
           },
@@ -64,6 +64,21 @@ const TabsLayout = () => {
                 icon={icons.bookmark}
                 color={color}
                 name='Tutorial'
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name='profile'
+          options={{
+            title: 'Profile',
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.profile}
+                color={color}
+                name='Profile'
                 focused={focused}
               />
             ),

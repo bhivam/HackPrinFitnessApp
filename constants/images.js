@@ -12,6 +12,7 @@ import treePose from '../assets/images/tree-pose.jpg';
 import lotusPose from '../assets/images/lotus-pose.jpg';
 import warriorPose from '../assets/images/warrior-pose.jpg';
 import downwardDogPose from '../assets/images/downward-dog-pose.jpg';
+import man from '../assets/images/man.jpg';
 
 export default {
   profile,
@@ -28,4 +29,5 @@ export default {
   lotusPose,
   warriorPose,
   downwardDogPose,
+  man,
 };

@@ -64,7 +64,7 @@ export default function App() {
           <CustomButton
             title='Continue'
             handlePress={handlePress}
-            containerStyles='w-full mt-7'
+            containerStyles='w-full mt-7 items-center'
           />
           <Text className="text-xs text-gray-50 mt-2 font-pextralight">Est. 2024</Text>
         </View>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Calendar } from 'react-native-calendars';
 import {
   Image,
   View,
@@ -6,6 +7,7 @@ import {
   Text,
   Dimensions,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -31,6 +33,55 @@ const data = [
   { image: images.warriorPose, title: 'Warrior Pose', route: '/warrior' },
 ];
 
+const StreakCalendar = () => {
+  const [markedDates, setMarkedDates] = useState({});
+  const streakDays = 7; // Example streak count for 7 days
+
+  useEffect(() => {
+    const today = new Date();
+    let dates = {};
+
+    for (let i = 0; i < streakDays; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+
+      const formattedDate = date.toISOString().split('T')[0];
+      dates[formattedDate] = {
+        marked: true,
+        dotColor: 'orange', // Color for the dot under marked dates
+        selected: true,
+        selectedColor: 'orange', // Color for the selected date background
+      };
+    }
+
+    setMarkedDates(dates);
+  }, []);
+
+  return (
+    <View style={styles.streakCalendarContainer}>
+      <Text style={styles.streakMessage}>Wow! {streakDays} Day Streak</Text>
+      <Calendar
+        markingType={'multi-dot'}
+        markedDates={markedDates}
+        theme={{
+          backgroundColor: 'black',
+          calendarBackground: 'black',
+          textSectionTitleColor: 'white',
+          selectedDayBackgroundColor: 'orange',
+          selectedDayTextColor: 'white',
+          todayTextColor: 'orange',
+          dayTextColor: 'white',
+          monthTextColor: 'white',
+          arrowColor: 'white',
+          textDisabledColor: 'gray',
+          dotColor: 'orange',
+          selectedDotColor: 'white',
+        }}
+      />
+    </View>
+  );
+};
+
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [search, setSearch] = useState('');
@@ -54,94 +105,109 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={[]}>
-      <LinearGradient
-        colors={[
-          'hsl(240, 94%, 7%)',
-          'hsl(244, 95%, 8%)',
-          'hsl(248, 95%, 9%)',
-          'hsl(252, 96%, 10%)',
-          'hsl(256, 96%, 11%)',
-          'hsl(259, 97%, 13%)',
-          'hsl(263, 97%, 14%)',
-          'hsl(267, 98%, 15%)',
-          'hsl(271, 98%, 16%)',
-          'hsl(275, 99%, 17%)',
-          'hsl(279, 99%, 18%)',
-          'hsl(283, 100%, 19%)',
-          'hsl(287, 100%, 20%)',
-        ]}
-        style={styles.gradientBackground}
-      >
-        <View style={styles.searchContainer}>
-          <SearchBar
-            placeholder='Search poses...'
-            onChangeText={handleSearch}
-            value={search}
-            platform='default'
-            containerStyle={styles.searchContainer}
-            inputContainerStyle={styles.searchInputContainer}
-            inputStyle={styles.searchInput}
-          />
-        </View>
-
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.title}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={onScroll}
-          scrollEventThrottle={16}
-          contentContainerStyle={styles.flatListContent}
-          snapToOffsets={[...Array(filteredData.length)].map(
-            (_, i) => i * width
-          )}
-          snapToAlignment='center'
-          decelerationRate='fast'
-          renderItem={({ item }) => (
-            <View style={[styles.imageContainer, shadows.high]}>
-              <Image
-                source={item.image}
-                style={styles.image}
-                resizeMode='cover'
-              />
-              <CustomButton
-                title={item.title}
-                handlePress={() => router.push(item.route)}
-                containerStyles='w-1/2 mt-7'
-              />
-            </View>
-          )}
-        />
-
-        <View style={styles.indicatorContainer}>
-          {filteredData.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.indicator,
-                index === activeIndex ? styles.activeIndicator : null,
-              ]}
+    <LinearGradient
+      colors={[
+        'hsl(240, 94%, 7%)',
+        'hsl(244, 95%, 8%)',
+        'hsl(248, 95%, 9%)',
+        'hsl(252, 96%, 10%)',
+        'hsl(256, 96%, 11%)',
+        'hsl(259, 97%, 13%)',
+        'hsl(263, 97%, 14%)',
+        'hsl(267, 98%, 15%)',
+        'hsl(271, 98%, 16%)',
+        'hsl(275, 99%, 17%)',
+        'hsl(279, 99%, 18%)',
+        'hsl(283, 100%, 19%)',
+        'hsl(287, 100%, 20%)',
+      ]}
+      style={styles.gradientBackground}
+    >
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <Text className='font-pregular text-2xl text-white text-center '>
+            Welcome back, John!
+          </Text>
+          <View style={styles.searchContainer}>
+            <SearchBar
+              placeholder='Search poses...'
+              onChangeText={handleSearch}
+              value={search}
+              platform='default'
+              containerStyle={styles.searchContainer}
+              inputContainerStyle={styles.searchInputContainer}
+              inputStyle={styles.searchInput}
             />
-          ))}
-        </View>
+          </View>
 
+          <FlatList
+            data={filteredData}
+            keyExtractor={(item) => item.title}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onScroll={onScroll}
+            scrollEventThrottle={16}
+            contentContainerStyle={styles.flatListContent}
+            snapToOffsets={[...Array(filteredData.length)].map(
+              (_, i) => i * width
+            )}
+            snapToAlignment='center'
+            decelerationRate='fast'
+            renderItem={({ item }) => (
+              <View style={[styles.imageContainer, shadows.high]}>
+                <Image
+                  source={item.image}
+                  style={styles.image}
+                  resizeMode='cover'
+                />
+                <Text className='absolute font-pbold text-secondary text-[2rem] mt-5'>
+                  {item.title}
+                </Text>
+                <Text className='absolute font-pbold text-secondary text-[1.5rem] mt-5 bottom-36'>
+                  Difficulty: easy
+                </Text>
+                <CustomButton
+                  title={'Select Pose'}
+                  handlePress={() => router.push(item.route)}
+                  containerStyles='items-center w-auto p-2 m-7'
+                />
+              </View>
+            )}
+          />
+
+          <View style={styles.indicatorContainer}>
+            {filteredData.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.indicator,
+                  index === activeIndex ? styles.activeIndicator : null,
+                ]}
+              />
+            ))}
+          </View>
+          <View className='w-[100vw] '>
+            <StreakCalendar />
+          </View>
+        </ScrollView>
         <Image
           source={images.orb}
           className='max-h-[30vh] w-full m-0 p-0 absolute bottom-0 -z-10'
         />
-      </LinearGradient>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100vh',
   },
   gradientBackground: {
     flex: 1,
+    height: '100vh',
   },
   searchContainer: {
     zIndex: 10,
@@ -149,23 +215,29 @@ const styles = StyleSheet.create({
     width: imageW * 1.2,
     alignSelf: 'center',
     backgroundColor: 'transparent',
+    borderColor: 'transparent',
   },
   searchInputContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#232533',
+    borderColor: 'transparent',
     borderRadius: 16,
-    height: 45,
+    height: 10,
+    width: 170,
+    alignSelf: 'center',
   },
   searchInput: {
     fontSize: 16,
+    borderColor: 'transparent',
   },
   flatListContent: {
     alignItems: 'flex-start',
-    paddingTop: 40
+    paddingTop: 40,
   },
   imageContainer: {
     width: width,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    position: 'relative',
   },
   image: {
     width: imageW,
@@ -176,8 +248,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    bottom: 20,
     width: '100%',
   },
   indicator: {
@@ -191,6 +261,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1)',
     width: 10,
     height: 10,
+  },
+  streakCalendarContainer: {
+    marginVertical: 20,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  streakMessage: {
+    color: 'orange',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  calendar: {
+    width: '100%', 
+    borderRadius: 15, 
+    overflow: 'hidden', 
   },
 });
 
