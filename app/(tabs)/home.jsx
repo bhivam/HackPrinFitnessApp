@@ -35,7 +35,7 @@ const data = [
 
 const StreakCalendar = () => {
   const [markedDates, setMarkedDates] = useState({});
-  const streakDays = 7; 
+  const streakDays = 7;
 
   useEffect(() => {
     const today = new Date();
@@ -48,9 +48,9 @@ const StreakCalendar = () => {
       const formattedDate = date.toISOString().split('T')[0];
       dates[formattedDate] = {
         marked: true,
-        dotColor: 'orange', 
+        dotColor: 'orange',
         selected: true,
-        selectedColor: 'orange', 
+        selectedColor: 'orange',
       };
     }
 
@@ -59,7 +59,9 @@ const StreakCalendar = () => {
 
   return (
     <View style={styles.streakCalendarContainer}>
-      <Text style={styles.streakMessage}>Keep it up, you're on a {streakDays} Day Streak!</Text>
+      <Text style={styles.streakMessage}>
+        Keep it up, you're on a {streakDays} Day Streak!
+      </Text>
       <Calendar
         markingType={'multi-dot'}
         markedDates={markedDates}
@@ -77,7 +79,12 @@ const StreakCalendar = () => {
           dotColor: 'orange',
           selectedDotColor: 'white',
         }}
-        style = {{borderRadius: 15, width: 300, height: 300, alignSelf: 'center'}}
+        style={{
+          borderRadius: 15,
+          width: 300,
+          height: 300,
+          alignSelf: 'center',
+        }}
       />
     </View>
   );
@@ -126,7 +133,9 @@ const Home = () => {
     >
       <SafeAreaView style={styles.container}>
         <ScrollView>
-          <Text className="text-white font-psemibold text-4xl text-center">Welcome back, John!</Text>
+          <Text className='text-white font-psemibold text-4xl text-center'>
+            Welcome back, John!
+          </Text>
           <View style={styles.searchContainer}>
             <SearchBar
               placeholder='Search poses...'
@@ -168,7 +177,9 @@ const Home = () => {
                 </Text>
                 <CustomButton
                   title={'Select Pose'}
-                  handlePress={() => router.push(item.route)}
+                  handlePress={() =>
+                    router.push('/CameraScreen', { pose: item })
+                  } 
                   containerStyles='items-center w-auto p-2 m-7'
                 />
               </View>
@@ -188,7 +199,9 @@ const Home = () => {
           </View>
           <View>
             <StreakCalendar />
-            <Text className="text-center text-secondary font-pregular">Days Logged</Text>
+            <Text className='text-center text-secondary font-pregular'>
+              Days Logged
+            </Text>
           </View>
         </ScrollView>
         <Image
@@ -265,7 +278,7 @@ const styles = StyleSheet.create({
   streakCalendarContainer: {
     marginVertical: 20,
     paddingHorizontal: 16,
-    width: '20px'
+    width: '20px',
   },
   streakMessage: {
     color: 'white',
@@ -273,7 +286,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    marginTop: 40
+    marginTop: 40,
   },
 });
 
