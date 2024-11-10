@@ -12,8 +12,11 @@ export default function App() {
   const [displayText, setDisplayText] = useState('');
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [animationStarted, setAnimationStarted] = useState(false);
 
   useEffect(() => {
+    if (!animationStarted) return; // Only start animation if button is clicked
+
     const currentWord = words[currentWordIndex];
     const typingSpeed = isDeleting ? 200 : 100; 
     const pauseDuration = 1000; 
@@ -30,7 +33,12 @@ export default function App() {
 
       setTimeout(() => setDisplayText(nextText), typingSpeed);
     }
-  }, [displayText, isDeleting, currentWordIndex]);
+  }, [displayText, isDeleting, currentWordIndex, animationStarted]);
+
+  const handlePress = () => {
+    setAnimationStarted(true); // Start animation on button click
+    router.push('/home'); // Navigate to home screen
+  };
 
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -55,7 +63,7 @@ export default function App() {
           </View>
           <CustomButton
             title='Continue'
-            handlePress={() => {router.push('/home')}}
+            handlePress={handlePress}
             containerStyles='w-full mt-7'
           />
           <Text className="text-xs text-gray-50 mt-2 font-pextralight">Est. 2024</Text>
@@ -65,3 +73,4 @@ export default function App() {
     </SafeAreaView>
   );
 }
+
