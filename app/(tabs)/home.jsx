@@ -35,7 +35,7 @@ const data = [
 
 const StreakCalendar = () => {
   const [markedDates, setMarkedDates] = useState({});
-  const streakDays = 7; // Example streak count for 7 days
+  const streakDays = 7; 
 
   useEffect(() => {
     const today = new Date();
@@ -48,9 +48,9 @@ const StreakCalendar = () => {
       const formattedDate = date.toISOString().split('T')[0];
       dates[formattedDate] = {
         marked: true,
-        dotColor: 'orange', // Color for the dot under marked dates
+        dotColor: 'orange', 
         selected: true,
-        selectedColor: 'orange', // Color for the selected date background
+        selectedColor: 'orange', 
       };
     }
 
@@ -59,7 +59,7 @@ const StreakCalendar = () => {
 
   return (
     <View style={styles.streakCalendarContainer}>
-      <Text style={styles.streakMessage}>Wow! {streakDays} Day Streak</Text>
+      <Text style={styles.streakMessage}>Keep it up, you're on a {streakDays} Day Streak!</Text>
       <Calendar
         markingType={'multi-dot'}
         markedDates={markedDates}
@@ -77,6 +77,7 @@ const StreakCalendar = () => {
           dotColor: 'orange',
           selectedDotColor: 'white',
         }}
+        style = {{borderRadius: 15, width: 300, height: 300, alignSelf: 'center'}}
       />
     </View>
   );
@@ -125,9 +126,7 @@ const Home = () => {
     >
       <SafeAreaView style={styles.container}>
         <ScrollView>
-          <Text className='font-pregular text-2xl text-white text-center '>
-            Welcome back, John!
-          </Text>
+          <Text className="text-white font-psemibold text-4xl text-center">Welcome back, John!</Text>
           <View style={styles.searchContainer}>
             <SearchBar
               placeholder='Search poses...'
@@ -187,8 +186,9 @@ const Home = () => {
               />
             ))}
           </View>
-          <View className='w-[100vw] '>
+          <View>
             <StreakCalendar />
+            <Text className="text-center text-secondary font-pregular">Days Logged</Text>
           </View>
         </ScrollView>
         <Image
@@ -265,19 +265,15 @@ const styles = StyleSheet.create({
   streakCalendarContainer: {
     marginVertical: 20,
     paddingHorizontal: 16,
-    alignItems: 'center',
+    width: '20px'
   },
   streakMessage: {
-    color: 'orange',
-    fontSize: 18,
+    color: 'white',
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-  },
-  calendar: {
-    width: '100%', 
-    borderRadius: 15, 
-    overflow: 'hidden', 
+    marginTop: 40
   },
 });
 
