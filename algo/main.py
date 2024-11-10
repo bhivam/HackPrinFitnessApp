@@ -20,16 +20,16 @@ def open_video(file_path):
 
 
 
+
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print("Please provide the video file path as an argument.")
     else:
         video_file = sys.argv[1]
         key_points = detect_pose_sequence(video_file)
-        type = sys.argv[2]
-        if type == "dog":
-            for i in range(key_points.shape[0]):
-                ret_message_dwd(key_points[i])
+        
+        for i in range(key_points.shape[0]):
+            ret_message_dwd(key_points[i])
             
         
         
