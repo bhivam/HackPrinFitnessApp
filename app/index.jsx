@@ -15,8 +15,8 @@ export default function App() {
 
   useEffect(() => {
     const currentWord = words[currentWordIndex];
-    const typingSpeed = isDeleting ? 200 : 100; 
-    const pauseDuration = 1000; 
+    const typingSpeed = isDeleting ? 200 : 300; 
+    const pauseDuration = 2500; 
 
     if (!isDeleting && displayText === currentWord) {
       setTimeout(() => setIsDeleting(true), pauseDuration);
@@ -33,7 +33,7 @@ export default function App() {
   }, [displayText, isDeleting, currentWordIndex]);
 
   const handlePress = () => {
-    router.push('/home'); // Navigate to home screen
+    router.push('/home'); 
   };
 
   return (

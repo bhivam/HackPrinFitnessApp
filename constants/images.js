@@ -13,6 +13,9 @@ import lotusPose from '../assets/images/lotus-pose.jpg';
 import warriorPose from '../assets/images/warrior-pose.jpg';
 import downwardDogPose from '../assets/images/downward-dog-pose.jpg';
 import man from '../assets/images/man.jpg';
+import yogaClass from '../assets/images/yoga-class.jpg'
+import deadlift from '../assets/images/deadlift.jpg'
+import food from '../assets/images/food.jpg'
 
 export default {
   profile,
@@ -30,4 +33,7 @@ export default {
   warriorPose,
   downwardDogPose,
   man,
+  yogaClass,
+  deadlift,
+  food,
 };
